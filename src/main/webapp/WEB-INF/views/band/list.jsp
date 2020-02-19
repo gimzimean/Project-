@@ -58,7 +58,7 @@
 <body class="hold-transition sidebar-collapse layout-top-nav">
 	<div class="wrapper">
 
-	<%@include file="../include/nav.jsp"%>
+		<%@include file="../include/nav.jsp"%>
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
@@ -92,17 +92,26 @@
 			<div class="content">
 				<div class="container">
 					<div class="row">
-						<c:forEach var="band" items="${bands}" varStatus="index">
-							<div class="col-lg-6">
-								<div class="card card-warning card-outline">
-									<div class="card-body">
-										<h5 class="card-title">${band.bandName }</h5>
-										<p class="card-text"></p>
-										<a href="#" class="btn btn-secondary">Go</a>
+
+								<c:forEach var="band" items="${bands}" varStatus="index">
+									<div class="col-lg-6">
+										<div class="card card-warning card-outline">
+											<div class="card-body">
+												<h5 class="card-title">${band.bandName }</h5>
+												<p class="card-text">${band.bandInfo }</p>
+												
+												<div class="card-footer">
+												<a href="/band/go/${band.bandId }" class="btn btn-secondary">Go</a>
+												<p class="card-text text-right">${band.username }</p>
+												</div>
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
-						</c:forEach>
+								</c:forEach>
+
+
+
+
 						<!-- /.col-md-6 -->
 
 						<!-- /.col-md-6 -->

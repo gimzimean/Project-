@@ -8,16 +8,20 @@
 <!-- Tell the browser to be responsive to screen width -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
- <!-- Font Awesome -->
-  <link rel="stylesheet" href="/resources/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="/resources/dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  
-  
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="/resources/plugins/fontawesome-free/css/all.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet"
+	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/resources/dist/css/adminlte.min.css">
+<!-- Google Font: Source Sans Pro -->
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+	rel="stylesheet">
+
+
 
 
 
@@ -111,61 +115,61 @@
 								<div class="item" style="width: 169.4px;">
 									<div class="pad15">
 										<span class="mailbox-attachment-icon has-img"><img
-																		src="/resources/img/Screenshot_14.png" alt="Attachment"></span>
+											src="/resources/img/Screenshot_14.png" alt="Attachment"></span>
 									</div>
 								</div>
 								<div class="item" style="width: 169.4px;">
 									<div class="pad15">
 										<span class="mailbox-attachment-icon has-img"><img
-																		src="/resources/img/Screenshot_15.png" alt="Attachment"></span>
+											src="/resources/img/Screenshot_15.png" alt="Attachment"></span>
 									</div>
 								</div>
 								<div class="item" style="width: 169.4px;">
 									<div class="pad15">
 										<span class="mailbox-attachment-icon has-img"><img
-																		src="/resources/img/Screenshot_16.png" alt="Attachment"></span>
+											src="/resources/img/Screenshot_16.png" alt="Attachment"></span>
 									</div>
 								</div>
 								<div class="item" style="width: 169.4px;">
 									<div class="pad15">
 										<span class="mailbox-attachment-icon has-img"><img
-																		src="/resources/img/Screenshot_17.png" alt="Attachment"></span>
+											src="/resources/img/Screenshot_17.png" alt="Attachment"></span>
 									</div>
 								</div>
 								<div class="item" style="width: 169.4px;">
 									<div class="pad15">
 										<span class="mailbox-attachment-icon has-img"><img
-																		src="/resources/img/Screenshot_18.png" alt="Attachment"></span>
+											src="/resources/img/Screenshot_18.png" alt="Attachment"></span>
 									</div>
 								</div>
 								<div class="item" style="width: 169.4px;">
 									<div class="pad15">
 										<span class="mailbox-attachment-icon has-img"><img
-																		src="/resources/img/Screenshot_19.png" alt="Attachment"></span>
+											src="/resources/img/Screenshot_19.png" alt="Attachment"></span>
 									</div>
 								</div>
 								<div class="item" style="width: 169.4px;">
 									<div class="pad15">
 										<span class="mailbox-attachment-icon has-img"><img
-																		src="/resources/img/Screenshot_20.png" alt="Attachment"></span>
+											src="/resources/img/Screenshot_20.png" alt="Attachment"></span>
 									</div>
 								</div>
 								<div class="item" style="width: 169.4px;">
 									<div class="pad15">
 										<span class="mailbox-attachment-icon has-img"><img
-																		src="/resources/img/Screenshot_21.png" alt="Attachment"></span>
+											src="/resources/img/Screenshot_21.png" alt="Attachment"></span>
 									</div>
 								</div>
 								<div class="item" style="width: 169.4px;">
 									<div class="pad15">
 										<span class="mailbox-attachment-icon has-img"><img
-																		src="/resources/img/Screenshot_22.png" alt="Attachment"></span>
+											src="/resources/img/Screenshot_22.png" alt="Attachment"></span>
 									</div>
 								</div>
 								<div class="item" style="width: 169.4px;">
 									<div class="pad15">
 										<span class="mailbox-attachment-icon has-img"><img
-																		src="/resources/img/Screenshot_23.png" alt="Attachment"></span>
+											src="/resources/img/Screenshot_23.png" alt="Attachment"></span>
 									</div>
 								</div>
 							</div>
@@ -192,8 +196,10 @@
 
 
 											<div class="tab-pane" id="settings">
-												<form action="*.band?cmd=writeProc" method="POST"
+												<form action="/band/create/${sessionScope.principal.userId}" method="POST" enctype="multipart/form-data"
 													class="form-horizontal">
+													
+													<input type="hidden" name="userId" value="${sessionScope.principal.userId}" />
 													<div class="form-group row">
 														<label for="inputName" class="col-sm-2 col-form-label">밴드
 															이름</label>
@@ -214,7 +220,7 @@
 													<div class="form-group">
 														<div class="btn btn-default btn-file ml-3">
 															<i class="fas fa-paperclip"></i> Attachment <input
-																type="file" name="attachment">
+																type="file" name="bandFile" multiple="multiple" id="checkExtension" onclick="checkExtension()">
 														</div>
 														<p class="help-block">Max. 32MB</p>
 
@@ -277,7 +283,7 @@
 													<div class="form-group row">
 														<div class="offset-sm-2 col-sm-4">
 															<div class="checkbox">
-																<label> <input type="checkbox"> I agree
+																<label> <input type="checkbox" value="true" name="agree"> I agree
 																	to the <a href="#">terms and conditions</a>
 																</label>
 															</div>
@@ -575,12 +581,29 @@
 	<script src="/resources/dist/js/adminlte.min.js"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script src="/resources/dist/js/demo.js"></script>
+	
 
 
 
 
 
 	<script type="text/javascript">
+	var regex=new RegExp("(.*?)\.(exe/sh/zip/alz)$");
+	var maxSize=5242880;
+	
+	function checkExtension(fileName, fileSize){
+		alert('파일 사이즈 초과')
+
+		if (fileSize>=maxSize) {
+			alert('파일 사이즈 초과')
+			return false;
+			
+		}if (regex.text(fileName)) {
+			alert('해당 종류의 파일은 업로드 할 수 없습니다.')
+			return false;
+		}
+		
+	}
 		$(document)
 				.ready(
 						function() {

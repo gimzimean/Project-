@@ -3,10 +3,25 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gzm.project.mapper.BandMapper">
-	<select id="findAll" resultType="com.gzm.project.model.band.Band">
-		select * from band;
+	<select id="findAll"
+		resultType="com.gzm.project.model.band.dto.RespBandandUsername">
+		select b.bandId,b.userId, b.bandName, b.bandInfo,u.userId,
+		u.username
+		from band b inner join user u on b.userId=u.userId
+		Order by
+		bandId DESC
 	</select>
-	
+
+	<insert id="save">
+		insert into band (userId,bandName, bandInfo,
+		bandFile) values
+		(#{userId},#{bandName},#{bandInfo},#{uuidFilename})
+	</insert>
+
+	<select id="findById" resultType="com.gzm.project.model.band.dto.RespBandandUsername">
+		select * from band where bandId=#{bandId}
+	</select>
+
 
 </mapper>
 
