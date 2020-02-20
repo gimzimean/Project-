@@ -93,21 +93,27 @@
 				<div class="container">
 					<div class="row">
 
-								<c:forEach var="band" items="${bands}" varStatus="index">
-									<div class="col-lg-6">
-										<div class="card card-warning card-outline">
-											<div class="card-body">
-												<h5 class="card-title">${band.bandName }</h5>
-												<p class="card-text">${band.bandInfo }</p>
-												
-												<div class="card-footer">
-												<a href="/band/go/${band.bandId }" class="btn btn-secondary">Go</a>
-												<p class="card-text text-right">${band.username }</p>
-												</div>
-											</div>
+						<c:forEach var="band" items="${band}" varStatus="index">
+							<div class="col-lg-6">
+								<div class="card card-warning card-outline">
+									<div class="card-body">
+										<h5 class="card-title">${band.bandName }</h5>
+										<p class="card-text">${band.bandInfo }</p>
+
+										<img src="/resources/media/${band.bandFile}"
+											class="rounded-circle my__img ml-auto" width="40px"
+											height="40px"
+											 />
+											 onerror="javascript:this.src = '/images/unknown.jpg' "
+
+										<div class="card-footer">
+											<a href="/band/go/${band.bandId }" class="btn btn-secondary">Go</a>
+											<p class="card-text text-right">${band.username }</p>
 										</div>
 									</div>
-								</c:forEach>
+								</div>
+							</div>
+						</c:forEach>
 
 
 

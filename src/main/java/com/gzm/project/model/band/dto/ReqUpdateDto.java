@@ -1,19 +1,18 @@
 package com.gzm.project.model.band.dto;
 
+import com.gzm.project.model.board.board;
+
 import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RespBandandUsername {
+public class ReqUpdateDto {
 	private int bandId;
-	private int userId;
-	private String username;
 	private String bandName;
 	private String bandInfo;
 	private String bandFile;
-	
 
 }

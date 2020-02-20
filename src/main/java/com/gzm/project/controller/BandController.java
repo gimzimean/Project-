@@ -1,6 +1,5 @@
 package com.gzm.project.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -10,17 +9,21 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gzm.project.model.band.dto.RespBandandUsername;
+import com.gzm.project.model.user.User;
 import com.gzm.project.service.BandService;
 
 @Controller
@@ -35,22 +38,42 @@ public class BandController {
 	@Autowired
 	private HttpServletResponse resp;
 
+	@Autowired
+	private HttpSession session;
+
 	private PrintWriter out;
 
 	@GetMapping("/list")
 	public String list(Model model) {
-		model.addAttribute("bands", bandService.밴드목록보기());
+		model.addAttribute("band", bandService.밴드목록보기());
 		return "/band/list";
 	}
-	
-	@GetMapping("/band/go/{band.bandId }")
-	public String go(@PathVariable int bandId) {
-		bandService.밴드상세보기(bandId);
+
+	@GetMapping("/band/go/{bandId}")
+	public String go(@PathVariable int bandId, Model model) {
+		User principal = (User) session.getAttribute("principal");
+		model.addAttribute("principal", principal);
+
+		model.addAttribute("band", bandService.밴드상세보기(bandId));
+
+		return "/pages/examples/profile2";
+	}
+
+	@GetMapping("/band/updatedPage/{bandId}")
+	public String updatedPage(@PathVariable int bandId, Model model) {
 		
-		return "/band/list";
+		System.out.println("오기는 왔니 ??????????????????????????????????????????/");
+		model.addAttribute("band", bandService.업데이트된나의밴드전체보기(bandId));
+
+		return "/pages/examples/profile2";
 	}
-	
-	
+
+	@GetMapping("/band/edit/{bandId}")
+	public String edit(@PathVariable int bandId, Model model) {
+		model.addAttribute("band", bandService.수정하기(bandId));
+
+		return "/pages/examples/project_edit";
+	}
 
 	@GetMapping("/band/create")
 	public String create() {
@@ -72,10 +95,9 @@ public class BandController {
 			out.flush();
 			out.close();
 			return null;
-
 		}
 
-		String uploadFolder = "C:\\upload\\";
+		String uploadFolder = "C:\\src\\Project2\\Project-\\src\\main\\webapp\\resources\\media\\";
 
 		UUID uuid = UUID.randomUUID();
 		String uuidFilename = uuid + "_" + bandFile.getOriginalFilename();
@@ -115,6 +137,58 @@ public class BandController {
 	@GetMapping("/band/contacts")
 	public String contacts() {
 		return "/pages/examples/contacts";
+	}
+
+	@PostMapping("/band/update/{bandId}")
+	public String update(@PathVariable @RequestParam int bandId,
+			@RequestParam(value = "agree", defaultValue = "false") Boolean agree, @RequestParam String bandName,
+			@RequestParam String bandInfo, @RequestParam MultipartFile bandFile, RedirectAttributes rttr)
+			throws IOException {
+
+		if (!agree) {
+			resp.setContentType("text/html;charset=UTF-8");
+			out = resp.getWriter();
+			out.println("<script>");
+			out.println("alert('약관에 동의해주세요.');");
+			out.println("history.back();");
+			out.println("</script>");
+			out.flush();
+			out.close();
+			return null;
+		}
+
+		String uploadFolder = "C:\\src\\Project2\\Project-\\src\\main\\webapp\\resources\\media\\";
+
+		UUID uuid = UUID.randomUUID();
+		String uuidFilename = uuid + "_" + bandFile.getOriginalFilename();
+		Path filePath = Paths.get(uploadFolder + uuidFilename);
+
+		try {
+			Files.write(filePath, bandFile.getBytes());
+			// File saveFile=new File(uploadFolder, bandFile.getOriginalFilename());
+			// bandFile.transferTo(saveFile);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		int result = bandService.수정완료(bandId, bandName, bandInfo, uuidFilename);
+		if (result == 1) {
+			resp.setContentType("text/html;charset=UTF-8");
+			out = resp.getWriter();
+			out.println("<script>");
+			out.println("alert('수정완료');");
+			out.println("location.href='/band/updatedPage/"+bandId+"';");
+			//out.println("location.href='/band/updatedPage/'"+bandId+';");
+			out.println("alert('수정완료222');");
+			out.println("</script>");
+			out.flush();
+			out.close();
+
+			return null;
+		}
+		return null;
+
 	}
 
 }

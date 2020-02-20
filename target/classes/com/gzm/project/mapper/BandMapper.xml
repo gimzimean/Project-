@@ -5,12 +5,22 @@
 <mapper namespace="com.gzm.project.mapper.BandMapper">
 	<select id="findAll"
 		resultType="com.gzm.project.model.band.dto.RespBandandUsername">
-		select b.bandId,b.userId, b.bandName, b.bandInfo,u.userId,
+		select b.bandId,b.userId, b.bandName, b.bandInfo,b.bandFile,u.userId,
 		u.username
 		from band b inner join user u on b.userId=u.userId
 		Order by
 		bandId DESC
 	</select>
+	
+	<select id="findRespAndUserName"
+		resultType="com.gzm.project.model.band.dto.ReqUpdateDto">
+		select b.bandId,b.userId, b.bandName, b.bandInfo,b.bandFile,u.userId,
+		u.username
+		from band b inner join user u on b.userId=u.userId
+		where bandId=#{bandId}
+	</select>
+	
+	
 
 	<insert id="save">
 		insert into band (userId,bandName, bandInfo,
@@ -21,6 +31,10 @@
 	<select id="findById" resultType="com.gzm.project.model.band.dto.RespBandandUsername">
 		select * from band where bandId=#{bandId}
 	</select>
+	
+	<update id="update">
+		update band set bandName = #{bandName}, bandInfo = #{bandInfo}, bandFile=#{uuidFilename} where bandId = #{bandId}
+	</update>
 
 
 </mapper>
