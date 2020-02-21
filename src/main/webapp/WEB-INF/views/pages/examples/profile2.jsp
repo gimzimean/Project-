@@ -73,7 +73,19 @@
 											class="float-right">1,322</a></li>
 									</ul>
 
-									<a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+									<c:if test="${not empty sessionScope.principal}">
+										<c:if test="${sessionScope.principal.userId ne band.userId}">
+											
+											<button id="follow--btn" class="btn btn-primary btn-block"
+												value="${sessionScope.principal.userId}">
+												<b>Follow</b>
+											</button>
+											
+											<input type="hidden" value="${band.userId }" id="toId">
+										</c:if>
+									</c:if>
+
+
 								</div>
 								<!-- /.card-body -->
 							</div>
@@ -150,7 +162,7 @@
 													</span>
 												</p>
 
-												<input class="form-control form-control-sm" type="text" 
+												<input class="form-control form-control-sm" type="text"
 													placeholder="Type a comment">
 											</div>
 											<!-- /.post -->
@@ -247,7 +259,9 @@
 
 
 										<div class="tab-pane" id="settings">
-											<form class="form-horizontal" action="/band/update/${band.bandId}" method="POST" enctype="multipart/form-data">
+											<form class="form-horizontal"
+												action="/band/update/${band.bandId}" method="POST"
+												enctype="multipart/form-data">
 
 												<input type="hidden" name="bandId" value="${band.bandId}">
 
@@ -346,11 +360,11 @@
 													<div class="offset-sm-2 col-sm-10"></div>
 												</div>
 												<button type="submit" class="btn btn-danger"
-												id="band--Updatd--submit">완료</button>
-												
+													id="band--Updatd--submit">완료</button>
+
 
 											</form>
-											
+
 
 										</div>
 										<!-- /.tab-pane -->
@@ -396,46 +410,37 @@
 	<!-- AdminLTE for demo purposes -->
 	<script src="/resources/dist/js/demo.js"></script>
 
-	<!-- <script type="text/javascript">
-	$('#band--Updatd--submit').on('click',function(){
-		if ($("input[type='checkbox']").is(":checked")) {
-			
+	<script type="text/javascript">
+		$('#follow--btn').on('click', function() {
 			var data = {
-					id: $('#band--Updatd--submit').val(),
-					$("input[type='checkbox']").is(":checked"
-					bandName: $('#bandName').val(),
-					bandInfo: $('#bandInfo').val(),
-					
+				fromId : $('#follow--btn').val(),
+				toId : $('#toId').val()
+			}
+			alert(data.fromId)
+			alert(data.toId)
+
+			$.ajax({
+				type : 'POST',
+				url : '/follow/' + data.fromId,
+				data : JSON.stringify(data),
+				contentType : "application/json; charset=utf-8",
+				dataType : 'json'
+			}).done(function(r) {
+				if (r.statusCode == 200) {
+					alert('팔로우 성공');
+					/* $('#follow--btn').style.backgroundColor='red'; */
+					$("#follow--btn").attr("disabled", "disabled");
+					/* location.href = '/'; */
+				} else {
+					alert('팔로우 실패');
 				}
-				$.ajax({
-					type: 'PUT',
-					url: '/band/update',
-					data: JSON.stringify(data),
-					contentType: "application/json; charset=utf-8",
-					dataType: 'json'
-				}).done(function(r){
-					if(r.statusCode == 200){
-						alert('수정 성공');
-						
-					}else{
-						alert('수정 실패');
-					}
-				}).fail(function(r){
-					alert('수정 실패');
-				});
-			
-		
-		}else {
-			alert('약관에 동의해주세요');
-		}
-		
-		
-	});
-	
-	
-	
+			}).fail(function(r) {
+				alert('팔로우 실패');
+			});
+
+		});
 	</script>
- -->
+
 
 </body>
 </html>

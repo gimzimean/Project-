@@ -75,7 +75,7 @@
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="#">Home</a></li>
+								<li class="breadcrumb-item"><a href="/list">Home</a></li>
 								<li class="breadcrumb-item"><a href="#">Layout</a></li>
 								<li class="breadcrumb-item active">Top Navigation</li>
 							</ol>
@@ -104,6 +104,7 @@
 											class="rounded-circle my__img ml-auto" width="40px"
 											height="40px"
 											 />
+										
 											 onerror="javascript:this.src = '/images/unknown.jpg' "
 
 										<div class="card-footer">
@@ -116,7 +117,7 @@
 						</c:forEach>
 
 
-
+ 
 
 						<!-- /.col-md-6 -->
 

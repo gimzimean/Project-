@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzm.project.mapper.FollowMapper">
+
+
+	<insert id="save">
+		insert into follow (fromId, toId) values
+		(#{fromId},#{toId})
+	</insert>
+
+	<select id="findById" resultType="com.gzm.project.model.band.dto.RespBandandUsername">
+		select * from band where bandId=#{bandId}
+	</select>
+	
+	<update id="update">
+		update band set bandName = #{bandName}, bandInfo = #{bandInfo}, bandFile=#{uuidFilename} where bandId = #{bandId}
+	</update>
+
+
+</mapper>
+

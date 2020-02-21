@@ -1,5 +1,6 @@
 package com.gzm.project.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -17,12 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.gzm.project.model.band.dto.RespBandandUsername;
 import com.gzm.project.model.user.User;
 import com.gzm.project.service.BandService;
 
@@ -98,6 +97,8 @@ public class BandController {
 		}
 
 		String uploadFolder = "C:\\src\\Project2\\Project-\\src\\main\\webapp\\resources\\media\\";
+		//String uploadFolder2 = "C:\\src\\Project2\\Project-\\img";
+		//String uploadFolder3 = "C:\\src\\Project2\\Project-\\src\\main\\resources\\img\\";
 
 		UUID uuid = UUID.randomUUID();
 		String uuidFilename = uuid + "_" + bandFile.getOriginalFilename();
@@ -105,8 +106,10 @@ public class BandController {
 
 		try {
 			Files.write(filePath, bandFile.getBytes());
-			// File saveFile=new File(uploadFolder, bandFile.getOriginalFilename());
-			// bandFile.transferTo(saveFile);
+			/*
+			 * File saveFile=new File(uploadFolder3, bandFile.getOriginalFilename());
+			 * bandFile.transferTo(saveFile);
+			 */
 
 		} catch (Exception e) {
 			// TODO: handle exception

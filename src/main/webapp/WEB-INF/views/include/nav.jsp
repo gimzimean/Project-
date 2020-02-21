@@ -7,9 +7,9 @@
 	<ul class="navbar-nav">
 		<li class="nav-item"><a class="nav-link" data-widget="pushmenu"
 			href="/"><i class="fas fa-bars"></i></a></li>
-		<li class="nav-item d-none d-sm-inline-block"><a href="index.jsp"
+		<li class="nav-item d-none d-sm-inline-block"><a href="/list"
 			class="nav-link">Home</a></li>
-		<li class="nav-item d-none d-sm-inline-block"><a href="#"
+		<li class="nav-item d-none d-sm-inline-block"><a href="/band/contacts"
 			class="nav-link">Contact</a></li>
 	</ul>
 
