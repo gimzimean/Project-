@@ -15,4 +15,5 @@ public class ReqUpdateDto {
 	private String bandInfo;
 	private String bandFile;
 	private int userId;
+	private int followerNUM;
 }

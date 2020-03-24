@@ -86,7 +86,7 @@
 						</div>
 						<!-- /.col -->
 						<div class="col-4">
-							<button type="submit" class="btn btn-primary btn-block">Sign
+							<button type="submit" id="submit" class="btn btn-primary btn-block">Sign
 								In</button>
 						</div>
 						<!-- /.col -->
@@ -122,6 +122,21 @@
 	<script src="/resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- AdminLTE App -->
 	<script src="/resources/dist/js/adminlte.min.js"></script>
+	
+	<script type="text/javascript">
+	docum    
+	
+	$('#submit').on('click',function(){
+		alert($('.remember').is(":checked"));
+		
+		
+		
+		
+	});
+	
+	
+	
+	</script>
 	
 	
 

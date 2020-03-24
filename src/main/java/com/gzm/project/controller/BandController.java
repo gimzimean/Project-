@@ -13,8 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,7 +64,6 @@ public class BandController {
 	@GetMapping("/band/updatedPage/{bandId}")
 	public String updatedPage(@PathVariable int bandId, Model model) {
 		
-		System.out.println("오기는 왔니 ??????????????????????????????????????????/");
 		model.addAttribute("band", bandService.업데이트된나의밴드전체보기(bandId));
 
 		return "/pages/examples/profile2";
@@ -69,15 +71,28 @@ public class BandController {
 
 	@GetMapping("/band/edit/{bandId}")
 	public String edit(@PathVariable int bandId, Model model) {
-		model.addAttribute("band", bandService.수정하기(bandId));
+		//model.addAttribute("band", bandService.수정하기(bandId));
+		User principal = (User) session.getAttribute("principal");
+		model.addAttribute("principal", principal);
 
-		return "/pages/examples/project_edit";
+		model.addAttribute("band", bandService.밴드상세보기(bandId));
+		return "/pages/examples/profile2";
 	}
 
 	@GetMapping("/band/create")
 	public String create() {
 		return "/pages/examples/profile";
 	}
+	
+	@GetMapping("/band/myband/{userId}")
+	public String myband(@PathVariable int userId, Model model) {
+		model.addAttribute("band", bandService.내밴드목록보기(userId));
+		
+		User principal=(User) session.getAttribute("principal");
+		session.setAttribute("principal", principal);
+		return "/pages/tables/jsgrid";
+	}
+	
 
 	@PostMapping("/band/create/{userId}")
 	public String create(@PathVariable @RequestParam int userId,
@@ -96,12 +111,14 @@ public class BandController {
 			return null;
 		}
 
-		String uploadFolder = "C:\\src\\Project2\\Project-\\src\\main\\webapp\\resources\\media\\";
+		String uploadFolder = "C:\\src\\springBlog집\\Project-\\Project-\\src\\main\\webapp\\resources\\media\\";
 		//String uploadFolder2 = "C:\\src\\Project2\\Project-\\img";
 		//String uploadFolder3 = "C:\\src\\Project2\\Project-\\src\\main\\resources\\img\\";
 
 		UUID uuid = UUID.randomUUID();
-		String uuidFilename = uuid + "_" + bandFile.getOriginalFilename();
+		System.out.println(bandFile.getOriginalFilename());
+		String uuidFilename = uuid + "_" + bandFile;
+		
 		Path filePath = Paths.get(uploadFolder + uuidFilename);
 
 		try {
@@ -127,20 +144,13 @@ public class BandController {
 		return "redirect:/list";
 	}
 
-	@GetMapping("/band/myband/{userId }")
-	public String myband(@PathVariable int userId) {
-		return "/pages/tables/jsgrid";
-	}
 
 	@GetMapping("/band/calendar")
 	public String calendar() {
 		return "/pages/examples/calendar";
 	}
 
-	@GetMapping("/band/contacts")
-	public String contacts() {
-		return "/pages/examples/contacts";
-	}
+	
 
 	@PostMapping("/band/update/{bandId}")
 	public String update(@PathVariable @RequestParam int bandId,
@@ -160,10 +170,10 @@ public class BandController {
 			return null;
 		}
 
-		String uploadFolder = "C:\\src\\Project2\\Project-\\src\\main\\webapp\\resources\\media\\";
+		String uploadFolder = "C:\\src\\springBlog집\\Project-\\Project-\\src\\main\\webapp\\resources\\media\\";
 
 		UUID uuid = UUID.randomUUID();
-		String uuidFilename = uuid + "_" + bandFile.getOriginalFilename();
+		String uuidFilename = uuid + "_" + bandFile;
 		Path filePath = Paths.get(uploadFolder + uuidFilename);
 
 		try {
@@ -193,5 +203,18 @@ public class BandController {
 		return null;
 
 	}
+	@DeleteMapping("/band/delete/{bandId}")
+	private ResponseEntity<?> delete(@PathVariable int bandId) {
+		
+		int result=bandService.나의밴드삭제(bandId);
+		
+		if (result==1) {
+			return new ResponseEntity<String>(HttpStatus.OK);
+			
+		}else {
+			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+			
+		}
 
+	}
 }

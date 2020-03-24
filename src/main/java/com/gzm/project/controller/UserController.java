@@ -125,6 +125,8 @@ public class UserController {
 		}
 
 	}
+	
+	
 
 	@GetMapping("/user/logout")
 	public String logout() {

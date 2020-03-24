@@ -27,7 +27,7 @@
 		<load-on-startup>1</load-on-startup>
 
 		<multipart-config>
-			<location>C:\\src\\Project2\\Project-\\src\\main\\webapp\\resources\\media</location>
+			<location>C:\\src\\springBlog집\\Project-\\Project-\\src\\main\\webapp\\resources\\media</location>
 			<max-file-size>2091520</max-file-size>
 			<max-request-size>41943040</max-request-size>
 			<file-size-threshold>20971520</file-size-threshold>

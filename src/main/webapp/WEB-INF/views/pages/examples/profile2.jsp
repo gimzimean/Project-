@@ -69,7 +69,7 @@
 									<p class="text-muted text-center">${band.bandInfo}</p>
 
 									<ul class="list-group list-group-unbordered mb-3">
-										<li class="list-group-item"><b>멤버 수</b> <a
+										<li class="list-group-item"><b>멤버 수</b> <a id="followNUM"
 											class="float-right">1,322</a></li>
 									</ul>
 
@@ -439,6 +439,39 @@
 			});
 
 		});
+		
+		$('#followNUM').on('click', function() {
+			var data = {
+				fromId : $('#follow--btn').val(),
+				toId : $('#toId').val()
+			}
+			alert(data.fromId)
+			alert(data.toId)
+
+			$.ajax({
+				type : 'POST',
+				url : '/follow/' + data.fromId,
+				data : JSON.stringify(data),
+				contentType : "application/json; charset=utf-8",
+				dataType : 'json'
+			}).done(function(r) {
+				if (r.statusCode == 200) {
+					alert('팔로우 성공');
+					/* $('#follow--btn').style.backgroundColor='red'; */
+					$("#follow--btn").attr("disabled", "disabled");
+					/* location.href = '/'; */
+				} else {
+					alert('팔로우 실패');
+				}
+			}).fail(function(r) {
+				alert('팔로우 실패');
+			});
+
+		});
+		
+		
+		
+		
 	</script>
 
 

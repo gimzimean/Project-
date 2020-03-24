@@ -18,7 +18,8 @@
 	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 <!-- jsGrid -->
 <link rel="stylesheet" href="/resources/plugins/jsgrid/jsgrid.min.css">
-<link rel="stylesheet" href="/resources/plugins/jsgrid/jsgrid-theme.min.css">
+<link rel="stylesheet"
+	href="/resources/plugins/jsgrid/jsgrid-theme.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="/resources/dist/css/adminlte.min.css">
 <!-- Google Font: Source Sans Pro -->
@@ -84,31 +85,39 @@
 											<thead>
 												<tr>
 													<th>ID</th>
-													<th class="text-center">name</th>
-													<th> </th>
-													
+													<th class="text-center">band</th>
+													<th></th>
+
 													<th class="text-center">Info</th>
-													<th> </th>
+													<th></th>
+													<th class="text-center">name</th>
+													<th></th>
 													<th class="text-center">Status</th>
 
 												</tr>
 											</thead>
 											<tbody>
-												<c:forEach var="band" items="${bands }" varStatus="status">
+												<c:forEach var="band" items="${band}" varStatus="status">
 													<tr>
-														<td >${band.id }</td>
+														<td id="bandId">${band.bandId }</td>
 														<td class="text-center">${band.bandName}</td>
-														<td> </td>
+														<td></td>
 														<td class="text-center">${band.bandInfo }</td>
-														<td> </td>
-														<td class="project-actions text-center">
-														 <a class="btn btn-info btn-sm" href="*.band?cmd=bandPage&id=${band.id }">
-														  <i
-																class="fas fa-pencil-alt"> </i> Edit
-														</a> <a class="btn btn-danger btn-sm" href="*.user?cmd=delete&id=${band.id }&userId=${band.userId}">
-														 <i
-																class="fas fa-trash"> </i> Delete
-														</a></td>
+														<td></td>
+														<td class="text-center">${band.username }</td>
+														<td></td>
+														<td class="project-actions text-center"><c:if
+																test="${band.userId eq sessionScope.principal.userId}">
+																<a class="btn btn-info btn-sm"
+																	href="/band/edit/${band.bandId }">
+																	<!-- *.band?cmd=bandPage&id=${band.bandId } --> <i
+																	class="fas fa-pencil-alt"> </i> Edit
+																</a>
+																<a class="btn btn-danger btn-sm"
+																	href="/band/delete/${band.bandId }" id="delete_button">
+																	<i class="fas fa-trash"> </i> Delete
+																</a></td>
+														</c:if>
 													</tr>
 												</c:forEach>
 
@@ -177,6 +186,94 @@
 	<script src="/resources/dist/js/demo.js"></script>
 	<!-- page script -->
 	<script>
+	
+	$("#delete_button").on('click',function(){
+		bandId=$('#bandId').text()
+		
+		
+		$.ajax({
+			type: 'DELETE',
+		    url:'/band/delete/'+bandId,
+			dataType: 'json'
+		}).done(function(r){
+			if(r.statusCode == 200){
+				alert('삭제 성공');
+			}else{
+				alert('삭제 실패');
+			}
+		}).fail(function(r){
+			alert('삭제 실패');
+		});	
+		
+		 /*  $.ajax({
+			   type:'delete',
+			    url:'/band/delete/'+bandId,
+			    dataType:'json'
+
+
+			     }).done(function(r){
+
+			     if(r.statusCode==200){
+			     alert('삭제 성공.');
+
+			     }else{
+			     if(r.statusCode==403){
+			      alert('접근 권한이 없습니다.');
+
+			     }}
+
+			     alert('회원가입 실패');}}
+
+
+			      }).fail(function(r){
+			       alert('회원가입 실패');
+
+
+			      });
+			      });  */
+		
+	});
+	
+	
+	
+	/* 
+	 $('#join--submit').on('click',function(){
+		   alert('sdf')
+		    var data={
+		  		  username=$('#username').val(),
+		  		   password=$('#password').val(),
+		  		    email=$('#email').val()
+		  		     }
+
+		  $.ajax({
+		   type:'POST',
+		    url:'/user/join',
+		    data:JSON.stringify(data),
+		    contentType:'application/json;charset=utf-8',
+		    dataType:'json'
+
+
+		     }).done(function(r){
+
+		     if(r.statusCode==200){
+		     alert('회원가입 성공.');
+		     location.href='/user/login';
+
+		     }else{
+		     if(r.msg=='아이디중복'){
+		      alert('아이디가 중복되었습니다.');
+
+		     }}
+
+		     alert('회원가입 실패');}}
+
+
+		      }).fail(function(r){
+		       alert('회원가입 실패');
+
+
+		      });
+		      }); */
 		$(function() {
 			$("#jsGrid1").jsGrid({
 				height : "100%",

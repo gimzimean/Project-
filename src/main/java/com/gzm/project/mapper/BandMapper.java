@@ -18,10 +18,15 @@ public interface BandMapper {
 	
 	
 	public ReqUpdateDto findRespAndUserName(int bandId);
+	ReqUpdateDto followerNUM(int toId);
 	
 	
 
 	public int update(@Param("bandId") int bandId,@Param("bandName") String bandName,@Param("bandInfo") String bandInfo,@Param("uuidFilename") String uuidFilename);
+
+	public List<Band> findmylist(int userId);
+
+	public int 나의밴드삭제(int bandId);
 
 
 	

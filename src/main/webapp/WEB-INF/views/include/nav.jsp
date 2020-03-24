@@ -181,7 +181,7 @@
 								<p>Search</p>
 						</a></li>
 						<li class="nav-item"><a
-							href="/band/myband/${principal.userId }"
+							href="/band/myband/${principal.userId}"
 							class="nav-link"> <!-- pages/examples/profile.jsp --> <i
 								class="nav-icon fas fa-spa"></i>
 								<p>My Band</p>
@@ -196,7 +196,7 @@
 						</a></li>
 
 						<li class="nav-item" style="height: 200px;"><a
-							href="/band/contacts" class="nav-link"> <i
+							href="/follow/contacts/${principal.userId }" class="nav-link"> <i
 								class="nav-icon fas fa-address-book"></i>
 								<p>Contacts</p>
 						</a></li>

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +40,14 @@ public class FollowController {
 			return new ResponseEntity<RespCM>(new RespCM(400, "fail"), HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+	
+	@GetMapping("/follow/contacts/{userId}")
+	public String contacts(@PathVariable int userId, Model model) {
+		
+		
+		model.addAttribute("band", followService.팔로우리스트(userId));		
+		return "/pages/examples/contacts";
 	}
 
 }
