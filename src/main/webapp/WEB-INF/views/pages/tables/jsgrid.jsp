@@ -105,7 +105,7 @@
 														<td class="text-center">${band.bandInfo }</td>
 														<td></td>
 														<td class="text-center">${band.username }</td>
-														<td></td>
+														<td> <input type="hidden" id="userId" value="${band.userId }"></td>
 														<td class="project-actions text-center"><c:if
 																test="${band.userId eq sessionScope.principal.userId}">
 																<a class="btn btn-info btn-sm"
@@ -188,21 +188,23 @@
 	<script>
 	
 	$("#delete_button").on('click',function(){
-		bandId=$('#bandId').text()
+		var bandId=$('#bandId').text();
+		var userId=$('#userId').val();
 		
 		
 		$.ajax({
-			type: 'DELETE',
+			type: 'delete',
 		    url:'/band/delete/'+bandId,
 			dataType: 'json'
 		}).done(function(r){
 			if(r.statusCode == 200){
 				alert('삭제 성공');
+				location.replace('/band/myband/'+userId+'');
 			}else{
-				alert('삭제 실패');
+				alert('삭제 실패111');
 			}
 		}).fail(function(r){
-			alert('삭제 실패');
+			alert('삭제 실패222');
 		});	
 		
 		 /*  $.ajax({

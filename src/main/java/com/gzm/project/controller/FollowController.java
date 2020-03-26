@@ -46,7 +46,7 @@ public class FollowController {
 	public String contacts(@PathVariable int userId, Model model) {
 		
 		
-		model.addAttribute("band", followService.팔로우리스트(userId));		
+		//model.addAttribute("band", followService.팔로우리스트(userId));		
 		return "/pages/examples/contacts";
 	}
 

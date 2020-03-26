@@ -1,6 +1,5 @@
 package com.gzm.project.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -21,10 +20,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gzm.project.model.RespCM;
 import com.gzm.project.model.user.User;
 import com.gzm.project.service.BandService;
 
@@ -203,16 +205,18 @@ public class BandController {
 		return null;
 
 	}
-	@DeleteMapping("/band/delete/{bandId}")
+	
+	//@DeleteMapping("/band/delete/{bandId}")
+	@RequestMapping(value="/band/delete/{bandId}", method= {RequestMethod.DELETE,RequestMethod.GET})
 	private ResponseEntity<?> delete(@PathVariable int bandId) {
 		
 		int result=bandService.나의밴드삭제(bandId);
 		
 		if (result==1) {
-			return new ResponseEntity<String>(HttpStatus.OK);
+			return new ResponseEntity<RespCM>(new RespCM(200,"ok"), HttpStatus.OK);
 			
 		}else {
-			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Integer>(403,HttpStatus.FORBIDDEN);
 			
 		}
 
