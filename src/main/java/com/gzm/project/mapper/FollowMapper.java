@@ -6,4 +6,6 @@ public interface FollowMapper {
 
 	int save(Follow follow);
 
+	int delete(Follow follow);
+
 }

@@ -207,33 +207,6 @@
 			alert('삭제 실패222');
 		});	
 		
-		 /*  $.ajax({
-			   type:'delete',
-			    url:'/band/delete/'+bandId,
-			    dataType:'json'
-
-
-			     }).done(function(r){
-
-			     if(r.statusCode==200){
-			     alert('삭제 성공.');
-
-			     }else{
-			     if(r.statusCode==403){
-			      alert('접근 권한이 없습니다.');
-
-			     }}
-
-			     alert('회원가입 실패');}}
-
-
-			      }).fail(function(r){
-			       alert('회원가입 실패');
-
-
-			      });
-			      });  */
-		
 	});
 	
 	

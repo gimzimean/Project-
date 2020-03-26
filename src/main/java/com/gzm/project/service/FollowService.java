@@ -23,4 +23,10 @@ public class FollowService {
 		
 	}
 
+
+	public int 연팔로우하기(Follow follow) {
+		// TODO Auto-generated method stub
+		return followMapper.delete(follow);
+	}
+
 }

@@ -22,6 +22,13 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
 	rel="stylesheet">
+
+<!-- <style type="text/css">
+.Following {
+	background: #808080;
+	border: #808080;
+}
+</style> -->
 </head>
 <body class="hold-transition sidebar-mini">
 	<div class="wrapper">
@@ -75,12 +82,12 @@
 
 									<c:if test="${not empty sessionScope.principal}">
 										<c:if test="${sessionScope.principal.userId ne band.userId}">
-											
+
 											<button id="follow--btn" class="btn btn-primary btn-block"
 												value="${sessionScope.principal.userId}">
 												<b>Follow</b>
 											</button>
-											
+
 											<input type="hidden" value="${band.userId }" id="toId">
 										</c:if>
 									</c:if>
@@ -416,30 +423,72 @@
 				fromId : $('#follow--btn').val(),
 				toId : $('#toId').val()
 			}
-			alert(data.fromId)
-			alert(data.toId)
+			$button = $(this);
 
-			$.ajax({
-				type : 'POST',
-				url : '/follow/' + data.fromId,
-				data : JSON.stringify(data),
-				contentType : "application/json; charset=utf-8",
-				dataType : 'json'
-			}).done(function(r) {
-				if (r.statusCode == 200) {
-					alert('팔로우 성공');
-					/* $('#follow--btn').style.backgroundColor='red'; */
-					$("#follow--btn").attr("disabled", "disabled");
-					/* location.href = '/'; */
-				} else {
+			if ($button.hasClass('alert-light Following')) {
+				/* Do Unfollow  */
+
+				$.ajax({
+					type : 'delete',
+					url : '/unfollow/' + data.fromId,
+					data : JSON.stringify(data),
+					contentType : "application/json; charset=utf-8",
+					dataType : 'json'
+				}).done(function(r) {
+					if (r.statusCode == 200) {
+						alert('언팔로우 성공');
+
+						$button.removeClass('alert-light Following');
+						$button.removeClass('btn-secondary Unfollow');
+						$button.text('Follow');
+
+					} else {
+						alert('언팔로우 실패');
+					}
+				}).fail(function(r) {
+					alert('언팔로우 실패');
+				});
+
+			} else {
+				/*Do Follow  */
+
+				$.ajax({
+					type : 'POST',
+					url : '/follow/' + data.fromId,
+					data : JSON.stringify(data),
+					contentType : "application/json; charset=utf-8",
+					dataType : 'json'
+				}).done(function(r) {
+					if (r.statusCode == 200) {
+						alert('팔로우 성공');
+
+						$button.addClass('alert-light Following');
+						$button.text('Following');
+
+					} else {
+						alert('팔로우 실패');
+					}
+				}).fail(function(r) {
 					alert('팔로우 실패');
-				}
-			}).fail(function(r) {
-				alert('팔로우 실패');
-			});
+				});
+
+			}
 
 		});
-		
+
+		$('#follow--btn').hover(function() {
+			$button = $(this);
+			if ($button.hasClass('alert-light Following')) {
+				$button.addClass('btn-secondary Unfollow');
+				$button.text('Unfollow');
+			}
+		}, function() {
+			if ($button.hasClass('alert-light Following')) {
+				$button.removeClass('btn-secondary Unfollow');
+				$button.text('Following');
+			}
+		});
+
 		$('#followNUM').on('click', function() {
 			var data = {
 				fromId : $('#follow--btn').val(),
@@ -468,10 +517,6 @@
 			});
 
 		});
-		
-		
-		
-		
 	</script>
 
 

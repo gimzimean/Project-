@@ -18,6 +18,10 @@
 		update band set bandName = #{bandName}, bandInfo = #{bandInfo}, bandFile=#{uuidFilename} where bandId = #{bandId}
 	</update>
 
+	<delete id="delete">
+		delete from follow where fromId=#{fromId} and toId=#{toId} 
+	</delete>
+
 
 </mapper>
 
