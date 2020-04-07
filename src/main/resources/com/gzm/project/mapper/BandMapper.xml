@@ -42,15 +42,29 @@
 		#{bandInfo}, bandFile=#{uuidFilename} where bandId = #{bandId}
 	</update>
 
-	<select id="followerNUM" resultType="com.gzm.project.model.band.dto.ReqUpdateDto">
+	<select id="followerNUM"
+		resultType="com.gzm.project.model.band.dto.ReqUpdateDto">
 
 		select count(fromId)
-		from user u inner join follow f on u.userId=f.fromId
+		from user u inner join follow f on
+		u.userId=f.fromId
 		where toId=#{toId}
 
 	</select>
+
+
+
+	<select id="findFollowBandAll"
+		resultType="com.gzm.project.model.band.dto.RespListFollowed">
+
+		select distinct u.username, b.bandName, b.bandInfo, f.toId, b.bandId
+		from user u inner join follow f on u.userId=f.toId
+		inner join band b on b.userId=u.userId
+		where f.fromId=#{userId}
+	</select>
 	
 	
+
 	<select id="findmylist"
 		resultType="com.gzm.project.model.band.dto.RespBandandUsername">
 		select b.bandId,b.userId, b.bandName,
@@ -62,9 +76,9 @@
 		Order by
 		bandId DESC
 	</select>
-	
-	<delete id="나의밴드삭제" >
-	delete from band where bandId=#{bandId}
+
+	<delete id="나의밴드삭제">
+		delete from band where bandId=#{bandId}
 	</delete>
 
 

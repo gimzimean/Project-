@@ -100,7 +100,7 @@
 												<c:forEach var="band" items="${band}" varStatus="status">
 													<tr>
 														<td id="bandId">${band.bandId }</td>
-														<td class="text-center"><a href="/band/detail/${band.bandId }">${band.bandName}</td>
+														<td class="text-center"><a href="/band/go/${band.bandId }">${band.bandName}</a></td>
 														<td></td>
 														<td class="text-center">${band.bandInfo }</td>
 														<td></td>

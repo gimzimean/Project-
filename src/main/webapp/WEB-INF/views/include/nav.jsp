@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
 	<!-- Left navbar links -->
 	<ul class="navbar-nav">
@@ -186,6 +187,19 @@
 								class="nav-icon fas fa-spa"></i>
 								<p>My Band</p>
 						</a></li>
+						
+						<li class="nav-item">
+						<%-- 
+						<c:set var="band" target="${band}"  property="bandId" scope="session"/>
+						<c:set var="band" value="<%=new RespBandandUsername.getBandId() %>"  property="bandId" scope="session"/> --%>
+						
+					<a href="/band/followingBand/${principal.userId}" 
+							class="nav-link"> <!-- pages/examples/profile.jsp --> <i
+								class="nav-icon fas fa-spa"></i>
+								<p>Following Band</p>
+						</a> 
+						
+						</li>
 
 
 						<li class="nav-item"><a href="/band/calendar"

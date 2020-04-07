@@ -270,7 +270,7 @@
 												action="/band/update/${band.bandId}" method="POST"
 												enctype="multipart/form-data">
 
-												<input type="hidden" name="bandId" value="${band.bandId}">
+												<input type="hidden" id="bandId" name="bandId" value="${band.bandId}">
 
 												<div class="form-group row">
 													<label for="bandName" class="col-sm-2 col-form-label">밴드
@@ -418,11 +418,17 @@
 	<script src="/resources/dist/js/demo.js"></script>
 
 	<script type="text/javascript">
+	
+	
 		$('#follow--btn').on('click', function() {
 			var data = {
 				fromId : $('#follow--btn').val(),
-				toId : $('#toId').val()
+				toId : $('#toId').val(),
+				bandId : $('#bandId').val()
 			}
+			
+			var bandId=$('#bandId').val()
+			
 			$button = $(this);
 
 			if ($button.hasClass('alert-light Following')) {
@@ -443,10 +449,11 @@
 						$button.text('Follow');
 
 					} else {
-						alert('언팔로우 실패');
+						alert('11언팔로우 실패');
 					}
 				}).fail(function(r) {
-					alert('언팔로우 실패');
+					alert(r)
+					alert('22언팔로우 실패');
 				});
 
 			} else {
@@ -466,10 +473,10 @@
 						$button.text('Following');
 
 					} else {
-						alert('팔로우 실패');
+						alert('팔로우 실패1');
 					}
 				}).fail(function(r) {
-					alert('팔로우 실패');
+					alert('팔로우 실패22');
 				});
 
 			}

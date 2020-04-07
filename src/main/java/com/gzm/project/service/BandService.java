@@ -6,14 +6,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.gzm.project.mapper.BandMapper;
 import com.gzm.project.model.ReturnCode;
 import com.gzm.project.model.band.Band;
 import com.gzm.project.model.band.dto.ReqUpdateDto;
 import com.gzm.project.model.band.dto.RespBandandUsername;
-import com.gzm.project.model.follow.Follow;
+import com.gzm.project.model.band.dto.RespListFollowed;
 import com.gzm.project.model.user.User;
 
 @Service
@@ -30,6 +29,11 @@ public class BandService{
 		return bandmapper.findAll();
 	}
 
+
+	public List<RespListFollowed> 팔로우밴드목록보기(int userId) {
+		// TODO Auto-generated method stub
+		return bandmapper.findFollowBandAll(userId);
+	}
 
 	public int create(int userId,String bandName, String bandInfo, String uuidFilename) {
 		// TODO Auto-generated method stub
@@ -96,6 +100,8 @@ public class BandService{
 		
 		
 	}
+
+
 
 
 	/*

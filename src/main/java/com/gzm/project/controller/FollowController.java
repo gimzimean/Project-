@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.gzm.project.model.RespCM;
 import com.gzm.project.model.follow.Follow;
+import com.gzm.project.model.follow.Following;
 import com.gzm.project.service.FollowService;
 
 @Controller
@@ -34,12 +35,11 @@ public class FollowController {
 		 * System.out.println("fromId2222222는"+follow.getFollowId());
 		 */
 		int result=followService.팔로우하기(follow);
-
 		if(result == 1) {
 			return new ResponseEntity<RespCM>(new RespCM(200, "ok"), HttpStatus.OK);	
 		}else {
 			return new ResponseEntity<RespCM>(new RespCM(400, "fail"), HttpStatus.BAD_REQUEST);
-		}
+		}  
 		
 	}
 	
@@ -62,8 +62,7 @@ public class FollowController {
 	@GetMapping("/follow/contacts/{userId}")
 	public String contacts(@PathVariable int userId, Model model) {
 		
-		
-		//model.addAttribute("band", followService.팔로우리스트(userId));		
+		model.addAttribute("follow",  followService.팔로우리스트(userId));
 		return "/pages/examples/contacts";
 	}
   

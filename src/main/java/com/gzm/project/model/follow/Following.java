@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Follow {
-	private int followId;
+public class Following {
+	private int followingId;
 	private int fromId;
 	private int toId;
 	private int bandId;

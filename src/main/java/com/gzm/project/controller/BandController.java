@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gzm.project.model.RespCM;
+import com.gzm.project.model.band.Band;
 import com.gzm.project.model.user.User;
 import com.gzm.project.service.BandService;
 
@@ -50,6 +50,9 @@ public class BandController {
 	@GetMapping("/list")
 	public String list(Model model) {
 		model.addAttribute("band", bandService.밴드목록보기());
+		
+		Band band2=(Band)session.getAttribute("band2");
+		model.addAttribute("band2",band2);
 		return "/band/list";
 	}
 
@@ -89,10 +92,19 @@ public class BandController {
 	@GetMapping("/band/myband/{userId}")
 	public String myband(@PathVariable int userId, Model model) {
 		model.addAttribute("band", bandService.내밴드목록보기(userId));
+	
 		
 		User principal=(User) session.getAttribute("principal");
 		session.setAttribute("principal", principal);
 		return "/pages/tables/jsgrid";
+	}
+	
+	@GetMapping("/band/followingBand/{userId}")
+	public String followingBand(@PathVariable int userId, Model model) {
+		model.addAttribute("band", bandService.팔로우밴드목록보기(userId));
+		User principal=(User) session.getAttribute("principal");
+		session.setAttribute("principal", principal);
+		return "/pages/tables/followingBand";
 	}
 	
 
@@ -114,8 +126,6 @@ public class BandController {
 		}
 
 		String uploadFolder = "C:\\src\\springBlog집\\Project-\\Project-\\src\\main\\webapp\\resources\\media\\";
-		//String uploadFolder2 = "C:\\src\\Project2\\Project-\\img";
-		//String uploadFolder3 = "C:\\src\\Project2\\Project-\\src\\main\\resources\\img\\";
 
 		UUID uuid = UUID.randomUUID();
 		System.out.println(bandFile.getOriginalFilename());
@@ -221,4 +231,15 @@ public class BandController {
 		}
 
 	}
+	
+	@GetMapping("/band/detail/{bandId}")
+	public String detail(@PathVariable int bandId, Model model) {
+		User principal = (User) session.getAttribute("principal");
+		model.addAttribute("principal", principal);
+
+		model.addAttribute("band", bandService.밴드상세보기(bandId));
+
+		return "/pages/examples/profile2";
+	}
+	
 }

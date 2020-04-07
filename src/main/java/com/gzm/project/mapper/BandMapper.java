@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.gzm.project.model.band.Band;
 import com.gzm.project.model.band.dto.ReqUpdateDto;
 import com.gzm.project.model.band.dto.RespBandandUsername;
+import com.gzm.project.model.band.dto.RespListFollowed;
 
 public interface BandMapper {
 	
@@ -27,6 +28,8 @@ public interface BandMapper {
 	public List<Band> findmylist(int userId);
 
 	public int 나의밴드삭제(int bandId);
+
+	public List<RespListFollowed> findFollowBandAll(int userId);
 
 
 	
