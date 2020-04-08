@@ -57,13 +57,18 @@
 	<select id="findFollowBandAll"
 		resultType="com.gzm.project.model.band.dto.RespListFollowed">
 
-		select distinct u.username, b.bandName, b.bandInfo, f.toId, b.bandId
-		from user u inner join follow f on u.userId=f.toId
-		inner join band b on b.userId=u.userId
-		where f.fromId=#{userId}
+
+
+		select distinct u.username, c.bandName, c.bandInfo, c.toId, c.bandId
+
+		from (select f.followId, f.fromId, f.toId, f. bandId, b.userId,
+		b.bandName, b.bandInfo from follow f left outer join band b on
+		f.bandId=b.bandId where f.fromId=#{userId}) as c, user u
+		where
+		u.userId=c.userId;
 	</select>
-	
-	
+
+
 
 	<select id="findmylist"
 		resultType="com.gzm.project.model.band.dto.RespBandandUsername">

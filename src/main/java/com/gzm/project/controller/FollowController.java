@@ -47,6 +47,7 @@ public class FollowController {
 	//@DeleteMapping("/band/delete/{bandId}")
 		@RequestMapping(value="/unfollow/{fromId}", method= {RequestMethod.DELETE,RequestMethod.GET})
 		private ResponseEntity<?> delete(@PathVariable int fromId, @RequestBody Follow follow) {
+			System.out.println(follow);
 			int result=followService.연팔로우하기(follow);
 			
 			if (result==1) {

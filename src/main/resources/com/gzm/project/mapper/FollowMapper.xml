@@ -27,11 +27,11 @@
 
 	<delete id="delete">
 		delete from follow where fromId=#{fromId} and
-		toId=#{toId}
+		toId=#{toId} and bandId=#{bandId}
 	</delete>
 
 	<select id="findAll"
-		resultType="com.gzm.project.model.follow.dto.RespListDto">
+		resultType="com.gzm.project.model.follow.dto.RespListDto"> 
 		select distinct u.username, f.toId, f.fromId, u.email
 		from user u
 		inner join follow f on u.userId=f.toId
