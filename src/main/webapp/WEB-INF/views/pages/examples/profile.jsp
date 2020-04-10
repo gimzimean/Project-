@@ -166,12 +166,6 @@
 											src="/resources/img/Screenshot_22.png" alt="Attachment"></span>
 									</div>
 								</div>
-								<div class="item" style="width: 169.4px;">
-									<div class="pad15">
-										<span class="mailbox-attachment-icon has-img"><img
-											src="/resources/img/Screenshot_23.png" alt="Attachment"></span>
-									</div>
-								</div>
 							</div>
 							<button class="btn btn-primary leftLst over">&lt;</button>
 							<button class="btn btn-primary rightLst">&gt;</button>

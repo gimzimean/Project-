@@ -115,7 +115,7 @@
 								<!-- /.card-body -->
 							</div>
 							<!-- /.card -->
-						</div>
+						</div>      
 						<!-- /.col -->
 						<div class="col-md-9">
 							<div class="card">
@@ -125,6 +125,8 @@
 											href="#activity" data-toggle="tab">게시판</a></li>
 										<li class="nav-item"><a class="nav-link"
 											href="/band/calendar" data-toggle="tab">일정</a></li>
+											
+											
 
 										<c:if test="${sessionScope.principal.userId eq band.userId}">
 
@@ -135,6 +137,7 @@
 
 									</ul>
 								</div>
+								
 								<!-- /.card-header -->
 								<div class="card-body">
 									<div class="tab-content">
