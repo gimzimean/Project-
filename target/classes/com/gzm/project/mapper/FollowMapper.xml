@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzm.project.mapper.FollowMapper">
+
+
+	<insert id="save">
+		insert ignore into follow (fromId, toId, bandId) values
+		(#{fromId},#{toId},#{bandId})
+	</insert>
+	
+	<insert id="save2">
+		insert into following (fromId, toId, bandId) values
+		(#{fromId},#{toId},#{bandId})
+	</insert>
+
+	<select id="findById"
+		resultType="com.gzm.project.model.band.dto.RespBandandUsername">
+		select * from band where bandId=#{bandId}
+	</select>
+
+	<update id="update">
+		update band set bandName = #{bandName}, bandInfo =
+		#{bandInfo}, bandFile=#{uuidFilename} where bandId = #{bandId}
+	</update>
+
+	<delete id="delete">
+		delete from follow where fromId=#{fromId} and
+		toId=#{toId} and bandId=#{bandId}
+	</delete>
+
+	<select id="findAll"
+		resultType="com.gzm.project.model.follow.dto.RespListDto"> 
+		select distinct u.username, f.toId, f.fromId, u.email
+		from user u
+		inner join follow f on u.userId=f.toId
+		where fromId=#{userId}
+
+	</select>
+
+
+</mapper>
+

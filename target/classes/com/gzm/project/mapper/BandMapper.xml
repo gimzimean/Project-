@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzm.project.mapper.BandMapper">
+	<select id="findAll" resultType="com.gzm.project.model.band.dto.RespBandandUsername">
+		select b.bandId,b.userId,
+		b.bandName,
+		b.bandInfo,b.bandFile,u.userId,
+		u.username
+		from band b inner
+		join user u
+		on b.userId=u.userId
+		Order by
+		bandId DESC
+	</select>
+
+	<select id="findRespAndUserName" resultType="com.gzm.project.model.band.dto.ReqUpdateDto">
+		select
+		b.bandId,b.userId, b.bandName,
+		b.bandInfo,b.bandFile,u.userId,
+		u.username
+		from band b inner join user u
+		on b.userId=u.userId
+		where
+		bandId=#{bandId}
+	</select>
+
+	<select id="findbyBandId" resultType="com.gzm.project.model.follow.dto.RespListFollowNotFollowId">
+		select distinct bandId, toId, fromId
+		from follow f
+		where bandId=#{bandId} and fromId=#{principalUserId}
+
+	</select>
+
+
+
+	<insert id="save">
+		insert into band (userId,bandName, bandInfo,
+		bandFile) values
+		(#{userId},#{bandName},#{bandInfo},#{uuidFilename})
+	</insert>
+
+	<select id="findById" resultType="com.gzm.project.model.band.dto.RespBandandUsername">
+		select * from band where
+		bandId=#{bandId}
+	</select>
+
+	<update id="update">
+		update band set bandName = #{bandName}, bandInfo =
+		#{bandInfo}, bandFile=#{uuidFilename} where bandId = #{bandId}
+	</update>
+
+	<select id="followerNUM" resultType="com.gzm.project.model.band.dto.ReqUpdateDto">
+
+		select count(fromId)
+		from
+		user u inner join follow f on
+		u.userId=f.fromId
+		where toId=#{toId}
+
+	</select>
+
+
+
+	<select id="findFollowBandAll" resultType="com.gzm.project.model.band.dto.RespListFollowed">
+
+
+
+		select distinct
+		u.username, c.bandName, c.bandInfo, c.toId, c.bandId
+
+		from (select
+		f.followId, f.fromId, f.toId, f. bandId, b.userId,
+		b.bandName,
+		b.bandInfo from follow f left outer join band b on
+		f.bandId=b.bandId
+		where f.fromId=#{userId}) as c, user u
+		where
+		u.userId=c.userId;
+	</select>
+
+
+
+	<select id="findmylist" resultType="com.gzm.project.model.band.dto.RespBandandUsername">
+		select b.bandId,b.userId,
+		b.bandName,
+		b.bandInfo,b.bandFile,u.userId,
+		u.username
+		from band b inner
+		join user u
+		on b.userId=u.userId
+		where u.userId=#{userId}
+		Order by
+		bandId
+		DESC
+	</select>
+
+	<delete id="나의밴드삭제">
+		delete from band where bandId=#{bandId}
+	</delete>
+
+
+</mapper>
+
