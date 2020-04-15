@@ -236,7 +236,7 @@ public class BandController {
 			return new ResponseEntity<RespCM>(new RespCM(200,"ok"), HttpStatus.OK);
 			
 		}else {
-			return new ResponseEntity<Integer>(403,HttpStatus.FORBIDDEN);
+			return new ResponseEntity<RespCM>(new RespCM(403,"ok"),HttpStatus.FORBIDDEN);
 			
 		}
 

@@ -103,11 +103,11 @@
 
 
 											<c:forEach items="${FollowStatus}" var="FollowId" >
-												Just FollowStatus is : ${FollowId}<br />
+												<%-- Just FollowStatus is : ${FollowId}<br />
 												1 : ${FollowId.toId } <br />
 												1': ${band.userId } <br />
 												2 : ${FollowId.fromId } <br />
-												2': ${sessionScope.principal.userId} <br />
+												2': ${sessionScope.principal.userId} <br /> --%>
 												
 
 
@@ -116,7 +116,7 @@
 														<c:when
 															test="${FollowId.toId eq band.userId && FollowId.fromId eq sessionScope.principal.userId}">
 															<button id="unfollow--btn"
-																class="btn btn-light btn-block"
+																class="btn btn-outline-secondary btn-block"
 																value="${sessionScope.principal.userId}">
 																<b>Following</b>
 															</button>
@@ -479,7 +479,7 @@
 
 			$button = $(this);
 
-			if ($button.hasClass('alert-light Following')) {
+			if ($button.hasClass('btn btn-outline-secondary btn-block')) {
 				/* Do Unfollow  */
 
 				$.ajax({
@@ -492,86 +492,7 @@
 					if (r.statusCode == 200) {
 						alert('언팔로우 성공');
 
-						$button.removeClass('alert-light Following');
-						$button.removeClass('btn-secondary Unfollow');
-						$button.text('Follow');
-
-					} else {
-						alert('11언팔로우 실패');
-					}
-				}).fail(function(r) {
-					alert('22언팔로우 실패');
-				});
-
-			} else {
-				/*Do Follow  */
-
-				$.ajax({
-					type : 'POST',
-					url : '/follow/' + data.fromId,
-					data : JSON.stringify(data),
-					contentType : "application/json; charset=utf-8",
-					dataType : 'json'
-				}).done(function(r) {
-					if (r.statusCode == 200) {
-						alert('팔로우 성공');
-
-						$button.addClass('alert-light Following');
-						$button.text('Following');
-
-					} else {
-						alert('팔로우 실패1');
-					}
-				}).fail(function(r) {
-					alert('팔로우 실패22');
-				});
-
-			}
-
-		});
-
-		$('#follow--btn').hover(function() {
-			$button = $(this);
-			if ($button.hasClass('alert-light Following')) {
-				$button.addClass('btn-secondary Unfollow');
-				$button.text('Unfollow');
-			}
-		}, function() {
-			if ($button.hasClass('alert-light Following')) {
-				$button.removeClass('btn-secondary Unfollow');
-				$button.text('Following');
-			}
-		});
-		/*follow -> unfollow 끝 */
-
-		/*Unfollow -> follow 시작*/
-
-		$('#unfollow--btn').on('click', function() {
-			var data = {
-				fromId : $('#unfollow--btn').val(),
-				toId : $('#toId').val(),
-				bandId : $('#bandId').val()
-			}
-
-			var bandId = $('#bandId').val()
-
-			$button = $(this);
-
-			if ($button.hasClass('btn btn-light btn-block')) {
-				/* Do Unfollow  */
-
-				$.ajax({
-					type : 'delete',
-					url : '/unfollow/' + data.fromId,
-					data : JSON.stringify(data),
-					contentType : "application/json; charset=utf-8",
-					dataType : 'json'
-				}).done(function(r) {
-					if (r.statusCode == 200) {
-						alert('언팔로우 성공');
-						/* alert-light Following   */
-
-						$button.removeClass('btn btn-light btn-block');
+						$button.removeClass('btn btn-outline-secondary btn-block');
 						$button.removeClass('btn-secondary Unfollow');
 						$button.addClass('btn btn-primary btn-block');
 						$button.text('Follow');
@@ -594,9 +515,11 @@
 					dataType : 'json'
 				}).done(function(r) {
 					if (r.statusCode == 200) {
-						alert('팔로우 성공');
-						$button.attr('id','unfollow--btn')
-						$button.addClass('alert-light Following');
+						alert('팔로우 성공1');
+						$button.removeClass('btn btn-primary btn-block');
+
+						$button.addClass('btn btn-outline-secondary btn-block');
+											/*alert-light Following  */
 						$button.text('Following');
 
 					} else {
@@ -612,14 +535,97 @@
 
 		$('#follow--btn').hover(function() {
 			$button = $(this);
-			if ($button.hasClass('alert-light Following')) {
+			if ($button.hasClass('btn btn-outline-secondary btn-block')) {
+								/* alert-light Following  */
 				$button.addClass('btn-secondary Unfollow');
 				$button.text('Unfollow');
 			}
 		}, function() {
-			if ($button.hasClass('alert-light Following')) {
+			if ($button.hasClass('btn btn-outline-secondary btn-block')) {
 				$button.removeClass('btn-secondary Unfollow');
 				$button.text('Following');
+			}
+		});
+		/*follow -> unfollow 끝 */
+
+		/*Unfollow -> follow 시작*/
+
+		$('#unfollow--btn').on('click', function() {
+			var data = {
+				fromId : $('#unfollow--btn').val(),
+				toId : $('#toId').val(),
+				bandId : $('#bandId').val()
+			}
+
+			var bandId = $('#bandId').val()
+
+			$button = $(this);
+
+			if ($button.hasClass('btn btn-outline-secondary btn-block')) {
+				/* Do Unfollow  */
+
+				$.ajax({
+					type : 'delete',
+					url : '/unfollow/' + data.fromId,
+					data : JSON.stringify(data),
+					contentType : "application/json; charset=utf-8",
+					dataType : 'json'
+				}).done(function(r) {
+					if (r.statusCode == 200) {
+						alert('언팔로우 성공2');
+						/* alert-light Following   */
+
+						$button.removeClass('btn btn-outline-secondary btn-block');
+						$button.removeClass('btn-secondary Unfollow');
+						$button.addClass('btn btn-primary btn-block');
+						$button.text('Follow');
+
+					} else {
+						alert('11언팔로우 실패');
+					}
+				}).fail(function(r) {
+					alert('22언팔로우 실패');
+				});
+
+			} else {
+				/*Do Follow  */
+
+				$.ajax({
+					type : 'POST',
+					url : '/follow/' + data.fromId,
+					data : JSON.stringify(data),
+					contentType : "application/json; charset=utf-8",
+					dataType : 'json'
+				}).done(function(r) {
+					if (r.statusCode == 200) {
+						alert('팔로우 성공2');
+						/* $button.attr('id','unfollow--btn') */
+						$button.removeClass('btn btn-primary btn-block');
+						$button.addClass('btn btn-outline-secondary btn-block');
+						
+						$button.text('Following');
+
+					} else {
+						alert('팔로우 실패1');
+					}
+				}).fail(function(r) {
+					alert('팔로우 실패22');
+				});
+
+			}
+
+		});
+
+		$('#unfollow--btn').hover(function() {
+			$button = $(this);
+			if ($button.hasClass('btn btn-outline-secondary btn-block')) {
+				$button.addClass('btn btn-secondary Unfollow');
+				$button.text('Unfollow');
+			}
+		}, function() {
+			if ($button.hasClass('btn btn-outline-secondary btn-block')) {
+				$button.removeClass('btn-secondary Unfollow');
+				$button.text('Following').bold();
 			}
 		});
 
