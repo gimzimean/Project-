@@ -11,6 +11,5 @@ public class ReqJoinDto {
 	private String username;
 	private String email;
 	private String password;
-	
-
+	private boolean agreeTerms;
 }

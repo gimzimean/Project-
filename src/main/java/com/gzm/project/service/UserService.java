@@ -22,7 +22,7 @@ public class UserService {
 	}
 	@Transactional
 	public int 회원가입(ReqJoinDto dto) {
-		int result=userMapper.findByUsername(dto.getUsername());
+		int result=userMapper.findByUsername(dto.getEmail());
 		if (result==1) {
 			return ReturnCode.아이디중복;
 		}else {

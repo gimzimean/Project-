@@ -38,6 +38,30 @@
 		where fromId=#{userId}
 
 	</select>
+	
+	<select id="findAllFollowingList" resultType="hashmap"
+		parameterType="hashmap">
+		 <![CDATA[
+		select distinct u.username, f.toId, f.fromId, u.email
+		from user u
+		inner join follow f on u.userId=f.toId
+		where fromId=#{userId}
+		LIMIT #{cri.pageStart}, #{cri.perPageNum}
+		 ]]>
+
+	</select>
+	
+	
+	<select id="countFollowingNum" resultType="Integer">
+	<![CDATA[
+       select count(distinct u.username)
+		from user u
+		inner join follow f on u.userId=f.toId
+		where fromId=#{userId}
+    ]]>
+	</select>
+	
+	
 
 
 </mapper>

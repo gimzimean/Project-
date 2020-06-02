@@ -12,7 +12,7 @@
 	</select>
 
 	<select id="findByUsername" resultType="int">
-		select count(*) from user where username=#{username}
+		select count(*) from user where email=#{email}
 	</select>
 
 	<insert id="save">

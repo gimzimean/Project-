@@ -54,23 +54,23 @@ public class UserController {
 
 	@PostMapping("/user/join")
 	public String join(ReqJoinDto dto, BindingResult bindingResult) throws IOException {
+		
+		System.out.println("dto"+dto);
+		
 		resp.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = resp.getWriter();
 		
-
 		int result = userService.회원가입(dto);
 		
 
 		if (result == ReturnCode.아이디중복) {
 			out.println("<script>");
 			out.println("alert('이메일이 중복되었습니다.');");
-			out.println("location.href='/user/join'");
+			out.println("history.back();");
+			//location.href='/user/join'
 			out.println("</script>");
 			out.flush();
 			out.close();
-			
-			
-			
 			return "/pages/examples/register";
 		} else if (result == ReturnCode.성공) {
 			return "redirect:/user/login";
@@ -86,12 +86,12 @@ public class UserController {
 	}
 
 	@PostMapping("/user/login")
-	public String login(@RequestParam String rememberME, @RequestParam String email, ReqLoginDto dto) throws Exception {
-
+	public String login( ReqLoginDto dto) throws Exception {
+		
 		String rememberMe = Optional.ofNullable(req.getParameter("rememberME")).orElse("off");
 
 		if (rememberMe.equals("on")) {
-			Cookie cookie = new Cookie("userEmailCookie", email);
+			Cookie cookie = new Cookie("userEmailCookie", dto.getEmail());
 			cookie.setMaxAge(60 * 60 * 24 * 7);
 			resp.addCookie(cookie);
 			System.out.println("쿠키들어옴~");
@@ -125,13 +125,17 @@ public class UserController {
 		}
 
 	}
-	
-	
 
 	@GetMapping("/user/logout")
 	public String logout() {
 		session.invalidate();
 		return "redirect:/list";
 	}
+	
+	@GetMapping("/user/forgot-password")
+	public String findPassword() {
+		return "/pages/examples/forgot-password";
+		
+	};
 
 }

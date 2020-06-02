@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzm.project.mapper.CalendarMapper">
+
+
+	<insert id="save">
+		insert into calendar (bandId, userId, title, start,
+		end, description, backgroundColor, allDay, borderColor, textColor)
+		values
+		(#{bandId},#{userId},#{title},#{start},#{end},#{description},#{backgroundColor},#{allDay},#{borderColor},#{textColor})
+	</insert>
+
+	<select id="findAll"
+		resultType="com.gzm.project.model.calendar.RespSchedule">
+		select calendarId,userId,title, start, end, description,
+		backgroundColor, textColor, borderColor, if(allDay, 'true','false') as
+		allDay from calendar where bandId=#{bandId}
+	</select>
+
+	<update id="update">
+		update band set bandName = #{bandName}, bandInfo =
+		#{bandInfo}, bandFile=#{uuidFilename} where bandId = #{bandId}
+	</update>
+
+	<delete id="delete">
+		delete from follow where fromId=#{fromId} and
+		toId=#{toId} and bandId=#{bandId}
+	</delete>
+
+	<update id="updateTimeSchedule">
+		update calendar set start = #{start}, end =
+		#{end}
+		where calendarId = #{id}
+	</update>
+
+	<update id="updateAllSchedule">
+		update calendar set
+		start=#{start},end=#{end},title=#{title},allDay=#{allDay},description=#{description},backgroundColor=#{backgroundColor},borderColor=#{borderColor},textColor=#{textColor}
+		where calendarId = #{id}
+	</update>
+	<delete id="deleteById">
+		delete from calendar where calendarId=#{calendarId}
+	</delete>
+
+
+
+
+</mapper>
+

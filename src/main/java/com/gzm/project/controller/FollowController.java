@@ -1,5 +1,8 @@
 package com.gzm.project.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.gzm.project.model.RespCM;
 import com.gzm.project.model.follow.Follow;
-import com.gzm.project.model.follow.Following;
+import com.gzm.project.model.page.Criteria2;
+import com.gzm.project.model.page.PageMaker2;
+import com.gzm.project.model.user.User;
 import com.gzm.project.service.FollowService;
 
 @Controller
@@ -61,10 +67,23 @@ public class FollowController {
 		}
 	
 	@GetMapping("/follow/contacts/{userId}")
-	public String contacts(@PathVariable int userId, Model model) {
+	public ModelAndView contacts(@PathVariable int userId, Model model, Criteria2 cri) {
+		ModelAndView mav= new ModelAndView("/pages/examples/contacts");
 		
-		model.addAttribute("follow",  followService.팔로우리스트(userId));
-		return "/pages/examples/contacts";
+		PageMaker2 pageMaker=new PageMaker2();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(followService.countFollowing(userId));
+		
+		
+		List<Map<String, Object>> list = followService.FollowingList(userId, cri);
+		User principal= (User)session.getAttribute("principal");
+		session.setAttribute("principal", principal);
+		System.out.println("principal"+principal);
+		System.out.println(list);
+		mav.addObject("follow", list);
+		mav.addObject("pageMaker", pageMaker);
+		
+		return mav;
 	}
   
 }

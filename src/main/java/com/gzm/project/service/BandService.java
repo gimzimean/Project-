@@ -1,12 +1,15 @@
 package com.gzm.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gzm.project.SearchCriteria;
 import com.gzm.project.mapper.BandMapper;
 import com.gzm.project.model.ReturnCode;
 import com.gzm.project.model.band.Band;
@@ -14,6 +17,7 @@ import com.gzm.project.model.band.dto.ReqUpdateDto;
 import com.gzm.project.model.band.dto.RespBandandUsername;
 import com.gzm.project.model.band.dto.RespListFollowed;
 import com.gzm.project.model.follow.dto.RespListFollowNotFollowId;
+import com.gzm.project.model.page.Criteria;
 import com.gzm.project.model.user.User;
 
 @Service
@@ -31,14 +35,14 @@ public class BandService{
 	}
 
 
-	public List<RespListFollowed> 팔로우밴드목록보기(int userId) {
+	public List<Map<String, Object>> 팔로우밴드목록보기(int userId, Criteria cri) {
 		// TODO Auto-generated method stub
-		return bandmapper.findFollowBandAll(userId);
+		return bandmapper.findFollowBandAll(userId,cri);
 	}
 
-	public int create(int userId,String bandName, String bandInfo, String uuidFilename) {
+	public int create(int userId,String bandName, String bandInfo, String uuidFilename, String originalName) {
 		// TODO Auto-generated method stub
-		return bandmapper.save(userId,bandName, bandInfo, uuidFilename);
+		return bandmapper.save(userId,bandName, bandInfo, uuidFilename,originalName);
 		
 	}
 
@@ -90,10 +94,17 @@ public class BandService{
 	}
 
 
-	public List<Band> 내밴드목록보기(int userId) {
+	public List<Map<String, Object>> 내밴드목록보기(int userId, Criteria cri) {
 		// TODO Auto-generated method stub
-		return bandmapper.findmylist(userId);
+		//return bandmapper.findmylist(userId,cri);
+		return bandmapper.findmylist(userId,cri);
 	}
+	
+	
+//	@SuppressWarnings("unchecked")
+//	public List<Map<String, Object>> selectBoardList(Criteria cri) {
+//	    return (List<Map<String,Object>>)selectList("board.selectBoardList", cri);
+//	}
 
 
 	public int 나의밴드삭제(int bandId) {
@@ -105,13 +116,55 @@ public class BandService{
 		}else {
 			return ReturnCode.권한없음;
 		}
-		
-		
+	}
+
+	public int countBandListTotal(int userId) {
+		// TODO Auto-generated method stub
+		return bandmapper.countBandList(userId);
 	}
 
 
+	public int countAllBandListTotal() {
+		// TODO Auto-generated method stub
+		return bandmapper.countAllBandList();
+	}
 
 
+	public List<Map<String, Object>> 모든밴드목록보기(Criteria cri) {
+		// TODO Auto-generated method stub
+		return bandmapper.findAllList(cri);
+	}
+
+
+	public int countFollowingBand(int userId) {
+		// TODO Auto-generated method stub
+		return bandmapper.countFollowing(userId);
+	}
+
+
+	public List<Map<String, Object>> 내밴드검색목록보기(Map<String, Object> keyword) {
+		// TODO Auto-generated method stub
+		System.out.println("keyword"+keyword);
+		return bandmapper.searchMyBandByKeyword(keyword);
+	}
+
+
+	public int countMyBand(Map<String, Object> keyword) {
+		// TODO Auto-generated method stub
+		return bandmapper.countMyBand(keyword);
+	}
+
+
+	public List<Map<String, Object>> searchAll(SearchCriteria scri) {
+		// TODO Auto-generated method stub
+		return bandmapper.searchAllByKeyword(scri);
+	}
+
+
+	public int countAll(SearchCriteria scri) {
+		// TODO Auto-generated method stub
+		return bandmapper.countAll(scri);
+	}
 
 
 	/*

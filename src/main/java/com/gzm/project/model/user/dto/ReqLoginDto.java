@@ -11,5 +11,6 @@ public class ReqLoginDto {
 	
 	private String email;
 	private String password;
+	private boolean rememberMe;
 
 }

@@ -7,7 +7,7 @@ import com.gzm.project.model.user.dto.ReqLoginDto;
 public interface UserMapper {
 	
 	User findEmailPassword(ReqLoginDto dto);
-	int findByUsername(String username);
+	int findByUsername(String email);
 	int save(ReqJoinDto dto);
 
 }
